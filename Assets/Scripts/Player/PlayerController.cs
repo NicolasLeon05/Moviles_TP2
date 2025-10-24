@@ -58,7 +58,7 @@ public class PlayerController : MonoBehaviour
     if (Accelerometer.current != null)
     {
         Vector3 accel = Accelerometer.current.acceleration.ReadValue();
-        float tilt = Mathf.Clamp(accel.x * 1.5f, -1f, 1f);
+        float tilt = Mathf.Clamp(accel.x * 3f, -3f, 3f);
         moveInput = Mathf.Lerp(moveInput, tilt, Time.deltaTime * 5f);
     }
 #endif
