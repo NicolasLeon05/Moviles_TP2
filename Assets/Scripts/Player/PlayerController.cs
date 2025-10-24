@@ -3,10 +3,15 @@ using UnityEngine.InputSystem;
 
 public class PlayerController : MonoBehaviour
 {
+
+    [Header("Animator")]
+    [SerializeField] private PlayerAnimatorController animatorController;
+
     [Header("Movement")]
     public float moveSpeed = 5f;
     public float jumpForce = 8f;
     public float airControlMultiplier = 0.6f;
+    private bool isJumping;
 
     [Header("GroundDetection")]
     public Transform groundCheck;
@@ -27,6 +32,7 @@ public class PlayerController : MonoBehaviour
     private float moveInput;
     private bool jumpPressed;
 
+    private SpriteRenderer spriteRenderer;
     void Awake()
     {
         rb = GetComponent<Rigidbody2D>();
@@ -36,6 +42,8 @@ public class PlayerController : MonoBehaviour
             InputSystem.EnableDevice(Accelerometer.current);
 
         inputActions.Player.Jump.performed += ctx => jumpPressed = true;
+
+        spriteRenderer = GetComponent<SpriteRenderer>();
     }
 
     void OnEnable() => inputActions.Enable();
@@ -56,7 +64,10 @@ public class PlayerController : MonoBehaviour
 #endif
 
         if (isGrounded)
+        {
             coyoteTimeCounter = coyoteTime;
+            isJumping = false;
+        }
         else
             coyoteTimeCounter -= Time.deltaTime;
 
@@ -69,6 +80,9 @@ public class PlayerController : MonoBehaviour
         {
             jumpBufferCounter -= Time.deltaTime;
         }
+
+        animatorController.SetGrounded(isGrounded);
+        animatorController.SetJumping(!isGrounded);
     }
 
     void FixedUpdate()
@@ -86,12 +100,18 @@ public class PlayerController : MonoBehaviour
             effectiveSpeed *= airControlMultiplier;
 
         rb.linearVelocity = new Vector2(moveInput * effectiveSpeed, rb.linearVelocity.y);
+
+        if (moveInput < 0)
+            spriteRenderer.flipX = true;
+        else
+            spriteRenderer.flipX = false;
     }
 
     void HandleJump()
     {
         if (jumpBufferCounter > 0f && coyoteTimeCounter > 0f)
         {
+            isJumping = true;
             rb.linearVelocity = new Vector2(rb.linearVelocity.x, 0);
             rb.AddForce(Vector2.up * jumpForce, ForceMode2D.Impulse);
 
