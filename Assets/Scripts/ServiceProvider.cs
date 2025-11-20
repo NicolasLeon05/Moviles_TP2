@@ -1,9 +1,32 @@
 using System;
 using System.Collections.Generic;
+using UnityEngine;
 
 public static class ServiceProvider
 {
     private static readonly Dictionary<Type, object> Services = new();
+
+#if UNITY_EDITOR
+    public static bool IsInitializedInEditor { get; private set; }
+
+    public static void EditorRegisterServices()
+    {
+        if (IsInitializedInEditor)
+            return;
+
+        // Buscar ServiceRegister aunque esté desactivado o no en escena
+        var reg = UnityEngine.Object.FindFirstObjectByType<ServiceRegister>(FindObjectsInactive.Include);
+
+        if (reg == null)
+        {
+            Debug.LogError("ServiceRegister not found in Editor. You must place one in the Boot scene.");
+            return;
+        }
+
+        reg.Register();
+        IsInitializedInEditor = true;
+    }
+#endif
 
     public static void SetService<T>(T service, bool overwriteIfFound = false)
     {
