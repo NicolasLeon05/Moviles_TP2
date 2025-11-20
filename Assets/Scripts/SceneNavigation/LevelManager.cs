@@ -10,6 +10,7 @@ public class LevelManager : MonoBehaviour
     private int LastLevelId => _mainLevels.Count - 1;
 
     private NavigationController _navigationController;
+    private SceneController _sceneController = ServiceProvider.GetService<SceneController>();
 
     private void Awake()
     {
@@ -31,7 +32,7 @@ public class LevelManager : MonoBehaviour
         if (!IsNextLevelValid(currentLevel, listId))
         {
             _currentLevelId = _startLevelId;
-            SceneController.Instance.SetLastActiveGameplay(_mainLevels[_startLevelId]);
+           _sceneController.SetLastActiveGameplay(_mainLevels[_startLevelId]);
 
             ServiceProvider.TryGetService(out _navigationController);
             _navigationController.GoToMenu(new MainMenuState());
@@ -54,7 +55,7 @@ public class LevelManager : MonoBehaviour
 
     private void GoToLevel(Level nextLevel)
     {
-        SceneController.Instance.AddLevel(nextLevel);
+       _sceneController.AddLevel(nextLevel);
     }
 
     private int GetListId(Level currentLevel)
@@ -91,7 +92,7 @@ public class LevelManager : MonoBehaviour
 
     public bool IsThereANextLevel()
     {
-        return HasNextLevel(SceneController.Instance.GetLastActiveGameplay());
+        return HasNextLevel(_sceneController.GetLastActiveGameplay());
     }
 }
 
@@ -102,7 +103,7 @@ public interface INextLevelEvent : IEvent
 
 public class NextLevelEvent : INextLevelEvent
 {
-
+    private SceneController _sceneController = ServiceProvider.GetService<SceneController>();
     private Level _currentLevel;
 
     public Level CurrentLevel => _currentLevel;
@@ -111,6 +112,6 @@ public class NextLevelEvent : INextLevelEvent
 
     public NextLevelEvent()
     {
-        _currentLevel = SceneController.Instance.GetLastActiveGameplay();
+        _currentLevel = _sceneController.GetLastActiveGameplay();
     }
 }

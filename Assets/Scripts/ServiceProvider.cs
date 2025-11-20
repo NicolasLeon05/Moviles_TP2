@@ -23,4 +23,12 @@ public static class ServiceProvider
         service = null;
         return false;
     }
+
+    public static T GetService<T>() where T : class
+    {
+        if (TryGetService<T>(out var service))
+            return service;
+
+        throw new Exception($"Service of type {typeof(T)} not found.");
+    }
 }

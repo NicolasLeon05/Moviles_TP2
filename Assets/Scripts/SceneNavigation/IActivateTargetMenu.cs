@@ -12,6 +12,7 @@ public class ActivateTargetMenu : IActivateTargetMenu
     private GameObject _targetMenu;
     private GameObject _gameObject;
     private bool _deactivatePreviousMenu;
+    private SceneController _sc = ServiceProvider.GetService<SceneController>();
 
     public GameObject TargetMenu => _targetMenu;
     public GameObject TriggeredByGO => _gameObject;
@@ -24,8 +25,7 @@ public class ActivateTargetMenu : IActivateTargetMenu
         controller.GoToMenu(targetMenu, deactivatePreviousMenu);
 
         _gameObject = null;
-
         if (activateMenuScene)
-            SceneController.Instance.SetSceneActive(SceneController.Instance.levelContainer.menusLevel.scenes[0]);
+            _sc.SetSceneActive(_sc.levelContainer.menusLevel.scenes[0]);
     }
 }

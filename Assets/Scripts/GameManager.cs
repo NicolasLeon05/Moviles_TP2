@@ -4,48 +4,28 @@ public class GameManager : MonoBehaviour
 {
     [SerializeField] private Level firstLevel;
 
-    public static GameManager Instance { get; private set; }
+    private SceneController _sceneController;
+
     private void Awake()
     {
-        if (Instance != null && Instance != this)
-        {
-            Destroy(this.gameObject);
-            return;
-        }
+        ServiceProvider.SetService<GameManager>(this);
 
-        Instance = this;
         DontDestroyOnLoad(this.gameObject);
     }
 
     private void Start()
     {
-        SceneController.Instance.LoadLevel(firstLevel);
+        _sceneController = ServiceProvider.GetService<SceneController>();
+        _sceneController.LoadLevel(firstLevel);
     }
 
-    /// <summary>
-    /// Destroys the instance of the player and unloads all scenes.
-    /// Then loads the first scene again
-    /// </summary>
     public void ResetGame()
     {
-        SceneController.Instance.UnloadNonPersistentScenes();
-        SceneController.Instance.LoadLevel(firstLevel);
+        _sceneController.UnloadNonPersistentScenes();
+        _sceneController.LoadLevel(firstLevel);
     }
 
-    /// <summary>
-    /// Pauses the time by setting the timeScale to 0
-    /// </summary>
-    public void PauseTime()
-    {
-        Time.timeScale = 0f;
-    }
+    public void PauseTime() => Time.timeScale = 0f;
 
-    /// <summary>
-    /// Resumes the time by setting the timeScale to 1
-    /// </summary>
-    public void ResumeTime()
-    {
-        Time.timeScale = 1f;
-    }
-
+    public void ResumeTime() => Time.timeScale = 1f;
 }

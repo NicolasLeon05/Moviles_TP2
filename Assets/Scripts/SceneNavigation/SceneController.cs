@@ -1,4 +1,3 @@
-using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -19,27 +18,17 @@ public class SceneController : MonoBehaviour
 
     private Level _currentActiveLevel;
     private Level _previousActiveLevel;
-    public Level CurrentActiveLevel => _currentActiveLevel;
-    public Level PreviousActiveLevel => _previousActiveLevel;
     private Level _lastActiveGameplay;
 
-    public static SceneController Instance { get; private set; }
+    public Level PreviousActiveLevel => _previousActiveLevel;
+    public Level CurrentActiveLevel => _currentActiveLevel;
+    public Level LastActiveGameplay => _lastActiveGameplay;
 
-    /// <summary>
-    /// Initializes the singleton instance of the SceneController.
-    /// Destroys duplicates and persists across scenes.
-    /// </summary>
     private void Awake()
     {
-        if (Instance != null && Instance != this)
-        {
-            Destroy(gameObject);
-            return;
-        }
+        ServiceProvider.SetService<SceneController>(this);
 
-        Instance = this;
         DontDestroyOnLoad(gameObject);
-
         SaveBootScenes();
     }
 

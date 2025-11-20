@@ -20,10 +20,11 @@ public class MainMenuState : IMenuState
 
 public class WinMenuState : IMenuState
 {
+    private SceneController _sc = ServiceProvider.GetService<SceneController>();
     public void Enter(NavigationController controller)
     {
-        SceneController.Instance.UpdateLastGameplayScene();
-        SceneController.Instance.UnloadNonPersistentScenes();
+        _sc.UpdateLastGameplayScene();
+        _sc.UnloadNonPersistentScenes();
         controller.ShowMenu(controller.winMenuGO, this);
     }
 

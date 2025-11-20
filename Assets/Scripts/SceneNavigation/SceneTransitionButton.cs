@@ -3,13 +3,15 @@ using UnityEngine;
 public class SceneTransitionButton : MonoBehaviour
 {
     [SerializeField] private Level _levelToLoad;
+    private SceneController _sceneController = ServiceProvider.GetService<SceneController>();
+    private GameManager _gameManager = ServiceProvider.GetService<GameManager>();
 
     /// <summary>
     /// Loads the assigned level, replacing current non-persistent scenes
     /// </summary>
     public void LoadLevel()
     {
-        SceneController.Instance.LoadLevel(_levelToLoad);
+        _sceneController.LoadLevel(_levelToLoad);
     }
 
     /// <summary>
@@ -17,13 +19,13 @@ public class SceneTransitionButton : MonoBehaviour
     /// </summary>
     public void AddLevel()
     {
-        SceneController.Instance.AddLevel(_levelToLoad);
+        _sceneController.AddLevel(_levelToLoad);
     }
 
     public void LoadLastLevel()
     {
-        if (SceneController.Instance.PreviousActiveLevel != null)
-            SceneController.Instance.LoadLevel(SceneController.Instance.PreviousActiveLevel);
+        if (_sceneController.PreviousActiveLevel != null)
+            _sceneController.LoadLevel(_sceneController.PreviousActiveLevel);
         else
             Debug.LogWarning("Previous active level not found");
     }
@@ -38,7 +40,7 @@ public class SceneTransitionButton : MonoBehaviour
     /// </summary>
     public void ExitGame()
     {
-        SceneController.Instance.Exit();
+        _sceneController.Exit();
     }
 
     /// <summary>
@@ -47,7 +49,7 @@ public class SceneTransitionButton : MonoBehaviour
     /// </summary>
     public void ReturnToMainMenu()
     {
-        GameManager.Instance.ResumeTime();
-        SceneController.Instance.UnloadNonPersistentScenes();
+        _gameManager.ResumeTime();
+        _sceneController.UnloadNonPersistentScenes();
     }
 }
