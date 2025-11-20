@@ -15,16 +15,6 @@ public class MenuTransitionButton : MonoBehaviour
         _navigationController.GoToMenu(new MainMenuState());
     }
 
-    public void ActivateDiaryMenu()
-    {
-        _navigationController.GoToMenu(new DiaryMenuState(), false);
-    }
-
-    public void ActivateSettingsMenu()
-    {
-        _navigationController.GoToMenu(new SettingsMenuState());
-    }
-
     public void ActivateCreditsMenu()
     {
         _navigationController.GoToMenu(new CreditsMenuState());

@@ -34,32 +34,6 @@ public class WinMenuState : IMenuState
     }
 }
 
-public class LoseMenuState : IMenuState
-{
-    public void Enter(NavigationController controller)
-    {
-        controller.ShowMenu(controller.loseMenuGO, this);
-    }
-
-    public void Exit(NavigationController controller)
-    {
-        controller.HideMenu(controller.loseMenuGO);
-    }
-}
-
-public class SettingsMenuState : IMenuState
-{
-    public void Enter(NavigationController controller)
-    {
-        controller.ShowMenu(controller.settingsMenuGO, this);
-    }
-
-    public void Exit(NavigationController controller)
-    {
-        controller.HideMenu(controller.settingsMenuGO);
-    }
-}
-
 public class CreditsMenuState : IMenuState
 {
     public void Enter(NavigationController controller)
@@ -70,19 +44,6 @@ public class CreditsMenuState : IMenuState
     public void Exit(NavigationController controller)
     {
         controller.HideMenu(controller.creditsMenuGO);
-    }
-}
-
-public class DiaryMenuState : IMenuState
-{
-    public void Enter(NavigationController controller)
-    {
-        controller.ShowMenu(controller.diaryMenuGO, this);
-    }
-
-    public void Exit(NavigationController controller)
-    {
-        controller.HideMenu(controller.diaryMenuGO);
     }
 }
 
