@@ -3,14 +3,14 @@ using UnityEngine;
 
 public class PlatformFactory : IPlatformFactory
 {
-    private readonly Dictionary<string, PlatformFlyweight> _flyweights;
+    private readonly Dictionary<PlatformType, PlatformFlyweight> _flyweights;
 
-    public PlatformFactory(Dictionary<string, PlatformFlyweight> flyweights)
+    public PlatformFactory(Dictionary<PlatformType, PlatformFlyweight> flyweights)
     {
         _flyweights = flyweights;
     }
 
-    public PlatformInstance Create(string type, Vector2 position, int difficulty)
+    public PlatformInstance Create(PlatformType type, Vector2 position)
     {
         if (!_flyweights.TryGetValue(type, out var fly))
         {
@@ -22,7 +22,6 @@ public class PlatformFactory : IPlatformFactory
         {
             flyweight = fly,
             position = position,
-            difficulty = difficulty
         };
     }
 }

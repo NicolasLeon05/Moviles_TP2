@@ -103,7 +103,7 @@ public class PlayerController : MonoBehaviour
 
         if (moveInput < 0)
             spriteRenderer.flipX = true;
-        else
+        else if (moveInput > 0)
             spriteRenderer.flipX = false;
     }
 

@@ -1,9 +1,16 @@
+public enum PlatformType
+{
+    Basic,
+    Moving,
+    Breaking
+}
+
 [System.Serializable]
 public class PlatformSegmentData
 {
     public float startY;
     public float endY;
-    public float platformDistanceY; //Distance between each platform
-    public float platformDistanceX; //Distance between each platform
-    //public PlatformPatternType pattern; // zigzag, spaced, mobile, etc
+    public float platformDistanceY;
+    public float platformDistanceX;
+    public PlatformType platformType;
 }

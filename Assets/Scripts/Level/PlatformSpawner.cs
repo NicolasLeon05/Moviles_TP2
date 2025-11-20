@@ -5,11 +5,16 @@ using UnityEngine;
 
 public class PlatformSpawner : MonoBehaviour
 {
-    public GameObject Spawn(PlatformInstance instance)
+    public GameObject Spawn(PlatformInstance instance, Transform parent)
     {
         var go = Instantiate(instance.flyweight.prefab);
         go.transform.position = instance.position;
+
+        if (parent != null)
+            go.transform.SetParent(parent);
+
         go.GetComponent<PlatformBehaviour>()?.Init(instance.flyweight);
+
         return go;
     }
 

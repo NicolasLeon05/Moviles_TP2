@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using UnityEngine;
 
 public class LevelGenerator : MonoBehaviour
@@ -6,6 +7,7 @@ public class LevelGenerator : MonoBehaviour
 
     private IPlatformFactory factory;
     private PlatformSpawner spawner;
+    private List<Transform> platforms = new List<Transform>();
 
     private void Start()
     {
@@ -18,7 +20,9 @@ public class LevelGenerator : MonoBehaviour
     private void GenerateLevel()
     {
         foreach (var seg in levelData.segments)
-            GenerateSegment(seg, levelData.difficulty, spawner, factory);
+            GenerateSegment(seg, spawner, factory);
+
+        SpawnCoins(platforms);
     }
 
     public void GenerateLevelInEditor()
@@ -40,12 +44,11 @@ public class LevelGenerator : MonoBehaviour
             DestroyImmediate(transform.GetChild(i).gameObject);
 
         foreach (var seg in levelData.segments)
-            GenerateSegment(seg, levelData.difficulty, spawner, factory);
+            GenerateSegment(seg, spawner, factory);
     }
 
     private void GenerateSegment(
         PlatformSegmentData segment,
-        int difficulty,
         PlatformSpawner spawner,
         IPlatformFactory factory)
     {
@@ -56,20 +59,76 @@ public class LevelGenerator : MonoBehaviour
             float x = Random.Range(-segment.platformDistanceX, segment.platformDistanceX);
             var pos = new Vector2(x, y);
 
-            string type = PickPlatformType(difficulty);
-            var inst = factory.Create(type, pos, difficulty);
+            var type = GetPlatformTypeForSegment(segment);
+            var inst = factory.Create(type, pos);
 
             if (inst != null)
             {
-                spawner.SpawnEditor(inst, this.transform);
+                GameObject go;
+#if UNITY_EDITOR
+                go = spawner.SpawnEditor(inst, transform);
+#else
+                go = spawner.Spawn(inst, transform);
+#endif
+                platforms.Add(go.transform);
             }
-
             y += segment.platformDistanceY;
         }
     }
 
-    private string PickPlatformType(int difficulty)
+    private PlatformType GetPlatformTypeForSegment(PlatformSegmentData segment)
     {
-        return difficulty > 3 ? "Breaking" : "Basic";
+        return segment.platformType;
     }
+
+    private List<CoinType> CalculateCoins(int totalCurrency)
+    {
+        List<CoinType> result = new List<CoinType>();
+
+        int goldValue = CoinValues.GetValue(CoinType.Gold);
+        int silverValue = CoinValues.GetValue(CoinType.Silver);
+
+        int goldCount = totalCurrency / goldValue;
+        int remainder = totalCurrency % goldValue;
+
+        for (int i = 0; i < goldCount; i++)
+            result.Add(CoinType.Gold);
+
+        for (int i = 0; i < remainder / silverValue; i++)
+            result.Add(CoinType.Silver);
+
+        return result;
+    }
+
+    private void SpawnCoins(List<Transform> platforms)
+    {
+        ServiceProvider.TryGetService(out ICoinFactory coinFactory);
+
+        var coins = CalculateCoins(levelData.totalCurrency);
+
+        if (coins.Count > platforms.Count)
+        {
+            Debug.LogWarning("There are more coins than platforms, some coins won't spawn");
+            coins = coins.GetRange(0, platforms.Count);
+        }
+
+        List<Transform> selectedPlatforms = new List<Transform>(platforms);
+        Shuffle(selectedPlatforms);
+
+        for (int i = 0; i < coins.Count; i++)
+        {
+            var platform = selectedPlatforms[i];
+            coinFactory.Create(coins[i], platform);
+        }
+    }
+
+    private void Shuffle<T>(List<T> list)
+    {
+        for (int i = list.Count - 1; i > 0; i--)
+        {
+            int j = Random.Range(0, i + 1);
+            (list[i], list[j]) = (list[j], list[i]);
+        }
+    }
+
 }

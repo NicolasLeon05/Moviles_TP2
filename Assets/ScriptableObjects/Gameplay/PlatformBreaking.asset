@@ -12,7 +12,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f3941494586f4d34da4e8719facbf53b, type: 3}
   m_Name: PlatformBreaking
   m_EditorClassIdentifier: 
-  id: Breaking
+  platformType: 2
   prefab: {fileID: 811300292021958796, guid: f5cca70d061a37e45b36e065ae788311, type: 3}
   width: 100
   height: 30
+  isMoving: 0
+  offsetX: 0
+  offsetY: 0
+  moveSpeed: 3

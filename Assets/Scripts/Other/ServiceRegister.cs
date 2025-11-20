@@ -9,6 +9,9 @@ public class ServiceRegister : MonoBehaviour
     [Header("Scene References")]
     [SerializeField] private PlatformSpawner spawner;
 
+    [SerializeField] private GameObject silverCoinPrefab;
+    [SerializeField] private GameObject goldCoinPrefab;
+
     private void Awake()
     {
         Register();
@@ -16,11 +19,18 @@ public class ServiceRegister : MonoBehaviour
 
     public void Register()
     {
-        var dict = new Dictionary<string, PlatformFlyweight>();
-        foreach (var f in flyweights)
-            dict[f.id] = f;
+        var coinDict = new Dictionary<CoinType, GameObject>
+        {
+            { CoinType.Silver, silverCoinPrefab },
+            { CoinType.Gold, goldCoinPrefab }
+        };
+        ServiceProvider.SetService<ICoinFactory>(new CoinFactory(coinDict), true);
 
-        ServiceProvider.SetService<IPlatformFactory>(new PlatformFactory(dict), true);
+        var platDict = new Dictionary<PlatformType, PlatformFlyweight>();
+        foreach (var f in flyweights)
+            platDict[f.platformType] = f;
+
+        ServiceProvider.SetService<IPlatformFactory>(new PlatformFactory(platDict), true);
         ServiceProvider.SetService(spawner, true);
     }
 }

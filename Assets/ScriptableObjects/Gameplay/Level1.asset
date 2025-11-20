@@ -12,10 +12,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 21c8331cd364b12489bef33658a0cc9d, type: 3}
   m_Name: Level1
   m_EditorClassIdentifier: 
-  height: 0
-  difficulty: 0
   segments:
   - startY: -1.5
-    endY: 20
+    endY: 10
     platformDistanceY: 3
     platformDistanceX: 4
+    platformType: 0
+  - startY: 10
+    endY: 25
+    platformDistanceY: 3
+    platformDistanceX: 4
+    platformType: 1
