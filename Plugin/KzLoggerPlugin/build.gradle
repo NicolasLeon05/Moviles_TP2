@@ -1,0 +1,63 @@
+plugins {
+    alias(libs.plugins.android.library)
+}
+
+android {
+    namespace 'com.leon2025.kzloggerplugin'
+    compileSdk 36
+
+    defaultConfig {
+        minSdk 24
+
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+        consumerProguardFiles "consumer-rules.pro"
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+    }
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_11
+        targetCompatibility JavaVersion.VERSION_11
+    }
+}
+
+dependencies {
+
+    implementation libs.appcompat
+    implementation libs.material
+    testImplementation libs.junit
+    androidTestImplementation libs.ext.junit
+    androidTestImplementation libs.espresso.core
+}
+
+tasks.register('buildAndCopy', Copy) {
+    dependsOn 'assembleRelease'
+
+    def aarFile = layout.buildDirectory.file("outputs/aar/${project.name}-release.aar")
+    def unityPluginsDir = file("D:/Image/Moviles/TPs/TP2/Moviles_TP2/Assets/Plugins/Android")
+
+    from(aarFile)
+    into(unityPluginsDir)
+
+    doFirst {
+        println "Building plugin..."
+    }
+
+    doLast {
+        if (aarFile.get().asFile.exists()) {
+            println "Copied ${project.name}-release.aar to: ${unityPluginsDir}"
+        } else {
+            println "ERROR: AAR file not found at: ${aarFile.get().asFile.path}"
+        }
+    }
+}
+
+afterEvaluate {
+    tasks.named("assembleRelease").configure {
+        finalizedBy(tasks.named("buildAndCopy"))
+    }
+}
