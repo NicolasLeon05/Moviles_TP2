@@ -691,6 +691,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   levelData: {fileID: 11400000, guid: dff9983bf136ab14899d46e7d81eb5a8, type: 2}
+  flagPrefab: {fileID: 6652875260233932363, guid: 44b9f1e6291ba9c4a9893b843f96d4e3, type: 3}
 --- !u!4 &344266192
 Transform:
   m_ObjectHideFlags: 0

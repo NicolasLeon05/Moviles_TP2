@@ -8,6 +8,7 @@ public class LevelGenerator : MonoBehaviour
     private IPlatformFactory factory;
     private PlatformSpawner spawner;
     private List<Transform> platforms = new List<Transform>();
+    [SerializeField] private GameObject flagPrefab;
 
     private void Start()
     {
@@ -23,6 +24,7 @@ public class LevelGenerator : MonoBehaviour
             GenerateSegment(seg, spawner, factory);
 
         SpawnCoins(platforms);
+        SpawnFinishFlag(platforms);
     }
 
     public void GenerateLevelInEditor()
@@ -120,6 +122,19 @@ public class LevelGenerator : MonoBehaviour
             var platform = selectedPlatforms[i];
             coinFactory.Create(coins[i], platform);
         }
+    }
+
+    private void SpawnFinishFlag(List<Transform> platforms)
+    {
+        if (platforms == null || platforms.Count == 0)
+        {
+            Debug.LogWarning("No platforms to place finish flag");
+            return;
+        }
+        Transform last = platforms[platforms.Count - 1];
+
+        Vector3 pos = last.position + new Vector3(0f, 0.75f, 0f);
+        Instantiate(flagPrefab, pos, Quaternion.identity, last);
     }
 
     private void Shuffle<T>(List<T> list)
