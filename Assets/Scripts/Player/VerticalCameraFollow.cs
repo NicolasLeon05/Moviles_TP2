@@ -12,6 +12,7 @@ public class VerticalCameraFollow : MonoBehaviour
 
         Vector3 pos = transform.position;
         pos.y = Mathf.Lerp(pos.y, target.position.y + verticalOffset, Time.deltaTime * smooth);
+        if (pos.y < 0) pos.y = 0;
         transform.position = pos;
     }
 }
