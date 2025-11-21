@@ -14,5 +14,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _index: 0
   _isActive: 0
-  _isPersistent: 0
+  _isPersistent: 1
   _sceneAsset: {fileID: 102900000, guid: 3c12487024b427e4bbbeda4e1b447a07, type: 3}

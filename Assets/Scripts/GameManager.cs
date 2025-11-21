@@ -9,7 +9,11 @@ public class GameManager : MonoBehaviour
     private void Awake()
     {
         ServiceProvider.SetService<GameManager>(this);
+        #if UNITY_ANDROID && !UNITY_EDITOR
         ServiceProvider.SetService<ILoggerService>(new AndroidLoggerService(), true);
+#else
+        ServiceProvider.SetService<ILoggerService>(new EditorLoggerService(), true);
+#endif
         DontDestroyOnLoad(this.gameObject);
     }
 

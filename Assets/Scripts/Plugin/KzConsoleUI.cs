@@ -1,18 +1,19 @@
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
-using System.Collections;
 
 public class KzConsoleUI : MonoBehaviour
 {
     [Header("UI")]
-    public TextMeshProUGUI logText;
-    public Button refreshButton;
-    public Button clearButton;
-    public ScrollRect scrollRect;
+    [SerializeField] private Transform contentParent;
+    [SerializeField] private ScrollRect scrollRect;
+    [SerializeField] private Button clearButton;
+    [SerializeField] private Button refreshButton;
+
+    [Header("Prefabs")]
+    [SerializeField] private LogEntryUI logEntryPrefab;
 
     private ILoggerService logger;
-    private bool userScrolling = false;
 
     private void Awake()
     {
@@ -21,51 +22,62 @@ public class KzConsoleUI : MonoBehaviour
 
     private void Start()
     {
-        refreshButton.onClick.AddListener(RefreshLogs);
-        clearButton.onClick.AddListener(ClearLogs);
+        if (clearButton != null)
+            clearButton.onClick.AddListener(OnClearRequested);
 
-        scrollRect.onValueChanged.AddListener(OnScrollValueChanged);
+        if (refreshButton != null)
+            refreshButton.onClick.AddListener(RefreshLogs);
 
         RefreshLogs();
-    }
-
-    private void OnScrollValueChanged(Vector2 pos)
-    {
-        userScrolling = scrollRect.verticalNormalizedPosition < 0.999f;
+        AddEntry("[TEST] Si ves esto, la UI funciona.");
     }
 
     public void RefreshLogs()
     {
         if (logger == null)
-        {
-            logText.text = "[Logger not registered]";
             return;
-        }
+
+        // 1. Eliminar logs viejos del scroll
+        foreach (Transform t in contentParent)
+            Destroy(t.gameObject);
 
         string logs = logger.GetAll();
-        logText.text = string.IsNullOrEmpty(logs) ? "There are no logs" : logs;
 
-        StartCoroutine(ForceScrollToBottom());
-    }
-
-    private IEnumerator ForceScrollToBottom()
-    {
-        yield return null;
-        yield return null;
-
-        if (!userScrolling)
-            scrollRect.verticalNormalizedPosition = 0f;
-    }
-
-    public void ClearLogs()
-    {
-        if (logger == null)
+        if (string.IsNullOrEmpty(logs))
         {
-            Debug.LogWarning("Logger not registered");
-            return;
+            AddEntry("No hay logs.");
+        }
+        else
+        {
+            string[] lines = logs.Split('\n');
+
+            foreach (string line in lines)
+            {
+                if (string.IsNullOrWhiteSpace(line)) continue;
+                AddEntry(line);
+            }
         }
 
+        // Forzar actualización visual y scrollear al final
+        Canvas.ForceUpdateCanvases();
+        scrollRect.verticalNormalizedPosition = 0f;
+    }
+
+    private void AddEntry(string text)
+    {
+        var entry = Instantiate(logEntryPrefab, contentParent);
+        entry.SetText(text);
+    }
+
+    private void OnClearRequested()
+    {
+        if (logger == null)
+            return;
+
+        // Llama al clear del plugin
         logger.RequestClear();
-        Invoke(nameof(RefreshLogs), 0.5f);
+
+        // Un pequeño delay hasta que Android borre el archivo
+        Invoke(nameof(RefreshLogs), 0.4f);
     }
 }
