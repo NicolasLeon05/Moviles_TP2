@@ -59,7 +59,7 @@ public class PauseController : MonoBehaviour
         }
     }
 
-    private void ChangePausedState()
+    public void ChangePausedState()
     {
         isPaused = !isPaused;
     }
