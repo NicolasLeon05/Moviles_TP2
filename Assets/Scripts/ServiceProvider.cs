@@ -14,7 +14,6 @@ public static class ServiceProvider
         if (IsInitializedInEditor)
             return;
 
-        // Buscar ServiceRegister aunque esté desactivado o no en escena
         var reg = UnityEngine.Object.FindFirstObjectByType<ServiceRegister>(FindObjectsInactive.Include);
 
         if (reg == null)

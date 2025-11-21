@@ -34,15 +34,32 @@ public static class KzLogger
 
     public static void RecordLog(string level, string message, string stacktrace = "")
     {
-        if (!IsAndroid) return;
+        if (!IsAndroid)
+        {
+#if UNITY_EDITOR
+            string path = System.IO.Path.Combine(Application.persistentDataPath, "unity_logs_editor.txt");
+            System.IO.File.AppendAllText(path, $"[{System.DateTime.Now:yyyy-MM-dd HH:mm:ss.fff}] {level}: {message}\n{stacktrace}\n\n");
+#endif
+            return;
+        }
         Plugin?.Call("recordLog", level, message, stacktrace);
     }
 
     public static string GetAllLogs()
     {
-        if (!IsAndroid) return "[UNITY EDITOR] No hay logs nativos.";
+        if (!IsAndroid)
+        {
+#if UNITY_EDITOR
+            string path = System.IO.Path.Combine(Application.persistentDataPath, "unity_logs_editor.txt");
+            if (System.IO.File.Exists(path)) return System.IO.File.ReadAllText(path);
+            return "[UNITY EDITOR] No hay logs nativos.";
+#else
+        return "[NOT ANDROID]";
+#endif
+        }
         return Plugin?.Call<string>("getAllLogs") ?? "";
     }
+
 
     public static void RequestClearLogs()
     {

@@ -9,7 +9,7 @@ public class GameManager : MonoBehaviour
     private void Awake()
     {
         ServiceProvider.SetService<GameManager>(this);
-
+        ServiceProvider.SetService<ILoggerService>(new AndroidLoggerService(), true);
         DontDestroyOnLoad(this.gameObject);
     }
 
