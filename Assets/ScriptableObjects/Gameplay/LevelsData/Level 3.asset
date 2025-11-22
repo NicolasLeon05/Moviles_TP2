@@ -14,8 +14,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   segments:
   - startY: -1.5
-    endY: 40
-    platformDistanceY: 4.5
-    platformDistanceX: 5
+    endY: 60
+    platformDistanceY: 7
+    platformDistanceX: 7
     platformType: 1
   totalCurrency: 30

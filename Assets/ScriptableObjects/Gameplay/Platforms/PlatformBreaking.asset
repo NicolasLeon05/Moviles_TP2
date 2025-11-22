@@ -19,4 +19,4 @@ MonoBehaviour:
   isMoving: 0
   offsetX: 0
   offsetY: 0
-  moveSpeed: 3
+  moveSpeed: 0
