@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 6092772124690704549}
   - component: {fileID: 9170488630560007890}
   - component: {fileID: 1682266698975357559}
+  - component: {fileID: -3764442051217032205}
   m_Layer: 0
   m_Name: SilverCoin
   m_TagString: Untagged
@@ -78,7 +79,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 0
+  m_SortingOrder: 5
   m_Sprite: {fileID: 7550714796630118033, guid: 6feea51732967f24090b70dd49e3d51b, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -170,3 +171,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b64d69cd4687e48458310b7bcb8cc38d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &-3764442051217032205
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8483792919114109274}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bcbf22e822e0ad04a8aa760584816b69, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  type: 0

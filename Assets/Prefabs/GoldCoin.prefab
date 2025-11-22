@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 6874864751287186572}
   - component: {fileID: 6979645280730919568}
   - component: {fileID: 3546162395036236170}
+  - component: {fileID: -8892712101683824984}
   m_Layer: 0
   m_Name: GoldCoin
   m_TagString: Untagged
@@ -78,7 +79,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 0
+  m_SortingOrder: 5
   m_Sprite: {fileID: -2758455068094552871, guid: 91d6bd26d115bd346881446a63e9fa2b, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -170,3 +171,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b64d69cd4687e48458310b7bcb8cc38d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &-8892712101683824984
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 94997489103930590}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bcbf22e822e0ad04a8aa760584816b69, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  type: 1
