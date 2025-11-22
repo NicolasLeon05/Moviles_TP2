@@ -1,3 +1,4 @@
+using GooglePlayGames;
 using UnityEngine;
 
 public class CoinCollision : MonoBehaviour

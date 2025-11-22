@@ -1,8 +1,10 @@
 using UnityEngine;
+using static UnityEngine.Rendering.DebugUI;
 
 public static class CurrencySystem
 {
     private const string COINS_KEY = "coins";
+    private const string ALL_TIMES_COINS_KEY = "all_times_coins";
     private const string JUMP_UPGRADE_KEY = "jump_upgrade";
     private const string SPEED_UPGRADE_KEY = "speed_upgrade";
 
@@ -12,6 +14,16 @@ public static class CurrencySystem
         private set
         {
             PlayerPrefs.SetInt(COINS_KEY, value);
+            PlayerPrefs.Save();
+        }
+    }
+
+    public static int AllTimesCoins
+    {
+        get => PlayerPrefs.GetInt(ALL_TIMES_COINS_KEY, 0);
+        private set
+        {
+            PlayerPrefs.SetInt(ALL_TIMES_COINS_KEY, value);
             PlayerPrefs.Save();
         }
     }
@@ -39,6 +51,8 @@ public static class CurrencySystem
     public static void AddCoins(int amount)
     {
         Coins += amount;
+        AllTimesCoins += amount;
+        PlayGamesService.Instance.SubmitScore(AllTimesCoins);
     }
 
     public static bool TryBuyJump(int cost)

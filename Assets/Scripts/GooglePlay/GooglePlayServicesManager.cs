@@ -11,9 +11,9 @@ public class PlayGamesService : MonoBehaviour
         {
             Instance = this;
             DontDestroyOnLoad(gameObject);
-
+#if UNITY_ANDROID
             PlayGamesPlatform.Activate();
-
+#endif
             SignIn();
         }
         else
@@ -28,16 +28,20 @@ public class PlayGamesService : MonoBehaviour
 
     public void SignIn()
     {
+#if UNITY_ANDROID
         PlayGamesPlatform.Instance.Authenticate((status) =>
         {
             Debug.Log("GPGS Auth result: " + status);
         });
+#endif
     }
-
+#if UNITY_ANDROID
     public bool IsSignedIn()
     {
+
         return PlayGamesPlatform.Instance.IsAuthenticated();
-    }
+}
+#endif
 
     // ---------------------------
     //        ACHIEVEMENTS
@@ -45,9 +49,10 @@ public class PlayGamesService : MonoBehaviour
 
     public void UnlockAchievement(string id)
     {
+#if UNITY_ANDROID
         if (!IsSignedIn())
         {
-            Debug.LogWarning("No logueado. No se puede desbloquear logro.");
+            Debug.LogWarning("User not logued in. Can't unlock achievement");
             return;
         }
 
@@ -55,17 +60,20 @@ public class PlayGamesService : MonoBehaviour
         {
             Debug.Log("Achievement " + id + " unlocked: " + success);
         });
+#endif
     }
 
     public void ShowAchievementsUI()
     {
+#if UNITY_ANDROID
         if (!IsSignedIn())
         {
-            Debug.LogWarning("No logueado, no se puede mostrar UI de achievements.");
+            Debug.LogWarning("User not logued in. Can't show achievement UI");
             return;
         }
 
         PlayGamesPlatform.Instance.ShowAchievementsUI();
+#endif
     }
 
     // ---------------------------
@@ -74,27 +82,31 @@ public class PlayGamesService : MonoBehaviour
 
     public void SubmitScore(long score)
     {
+#if UNITY_ANDROID
         if (!IsSignedIn())
         {
-            Debug.LogWarning("No logueado. No se puede enviar score.");
+            Debug.LogWarning("User not logued in. Can't send score");
             return;
         }
 
         PlayGamesPlatform.Instance.ReportScore(
             score,
             GPGSIds.leaderboard_leaderboard,
-            (success) => Debug.Log("Score enviado: " + success)
+            (success) => Debug.Log("Score send: " + success)
         );
+#endif
     }
 
     public void ShowLeaderboardUI()
     {
+        #if UNITY_ANDROID
         if (!IsSignedIn())
         {
-            Debug.LogWarning("No logueado. No se puede mostrar leaderboard.");
+            Debug.LogWarning("User not logued in. Can't show leaderboard");
             return;
         }
 
         PlayGamesPlatform.Instance.ShowLeaderboardUI(GPGSIds.leaderboard_leaderboard);
+#endif
     }
 }
