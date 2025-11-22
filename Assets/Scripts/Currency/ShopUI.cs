@@ -52,6 +52,9 @@ public class ShopUI : MonoBehaviour
             speedText.text = "Purchased";
             speedPrice.SetActive(false);
         }
+
+        if(CurrencySystem.SpeedUpgrade && CurrencySystem.JumpUpgrade)
+            PlayGamesService.Instance.UnlockAchievement(GPGSIds.achievement_collector);
     }
 
     private void OnBuyJump()

@@ -12,6 +12,7 @@ public class LevelGenerator : MonoBehaviour
 
     private void Start()
     {
+        PlayGamesService.Instance.UnlockAchievement(GPGSIds.achievement_welcome);
         ServiceProvider.TryGetService(out factory);
         ServiceProvider.TryGetService(out spawner);
 
