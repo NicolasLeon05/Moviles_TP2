@@ -7,6 +7,9 @@ public class SceneController : MonoBehaviour
 {
     public LevelContainer levelContainer;
     [SerializeField] private Level _bootLevel;
+    [SerializeField] private Level _loadingLevel;
+    [SerializeField] private float _loadingTime = 2f;
+    [SerializeField] private float _loadingRange = 1f;
 
     private List<SceneRef> _loadedScenes = new();
     private List<SceneRef> _persistentLoadedScenes = new();
@@ -37,15 +40,40 @@ public class SceneController : MonoBehaviour
     /// </summary>
     public void LoadLevel(Level level)
     {
-        AddLevel(level);
+        StartCoroutine(LoadLevelRoutine(level));
+    }
+    private IEnumerator LoadLevelRoutine(Level targetLevel)
+    {
+        bool isFirstLoad = _currentActiveLevel == null;
 
-        foreach (var scene in _loadedScenes)
+        if (_loadingLevel != null &&
+            _loadingLevel != targetLevel &&
+            !isFirstLoad)
         {
-            if (!scene.IsPersistent && !level.scenes.Contains(scene))
-                UnloadSceneByIndex(scene.Index);
+            AddLevel(_loadingLevel);
+
+            float wait = _loadingTime + Random.Range(-_loadingRange, _loadingRange);
+            if (wait < 0f) wait = 0f;
+
+            yield return new WaitForSeconds(wait);
         }
 
+        AddLevel(targetLevel);
+
+        _currentActiveLevel = targetLevel;
+
+        yield return null;
+
+        if (_loadingLevel != null)
+        {
+            foreach (var scene in _loadingLevel.scenes)
+            {
+                if (!scene.IsPersistent)
+                    UnloadSceneByIndex(scene.Index);
+            }
+        }
     }
+
 
     /// <summary>
     /// Loads all scenes in the level additively if they aren't already loaded.
@@ -57,7 +85,6 @@ public class SceneController : MonoBehaviour
         _previousActiveLevel = _currentActiveLevel;
         if (IsSceneInGameplayLevels(_previousActiveLevel))
             _lastActiveGameplay = level;
-        _currentActiveLevel = level;
 
         foreach (var scene in level.scenes)
         {

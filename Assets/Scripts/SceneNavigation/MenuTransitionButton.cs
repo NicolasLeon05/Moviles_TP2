@@ -25,6 +25,11 @@ public class MenuTransitionButton : MonoBehaviour
         _navigationController.GoToMenu(new ShopMenuState());
     }
 
+    public void ActivateTutorialMenu()
+    {
+        _navigationController.GoToMenu(new TutorialMenuState());
+    }
+
 
     public void ButtonSetPreviousActive()
     {

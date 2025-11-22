@@ -3,8 +3,14 @@ using UnityEngine;
 public class SceneTransitionButton : MonoBehaviour
 {
     [SerializeField] private Level _levelToLoad;
-    private SceneController _sceneController = ServiceProvider.GetService<SceneController>();
-    private GameManager _gameManager = ServiceProvider.GetService<GameManager>();
+    private SceneController _sceneController;
+    private GameManager _gameManager;
+
+    private void Awake()
+    {
+        _sceneController = ServiceProvider.GetService<SceneController>();
+        _gameManager = ServiceProvider.GetService<GameManager>();
+    }
 
     /// <summary>
     /// Loads the assigned level, replacing current non-persistent scenes

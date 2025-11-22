@@ -72,3 +72,16 @@ public class PauseMenuState : IMenuState
         controller.HideMenu(controller.pauseMenuGO);
     }
 }
+
+public class TutorialMenuState : IMenuState
+{
+    public void Enter(NavigationController controller)
+    {
+        controller.ShowMenu(controller.tutorialMenuGO, this);
+    }
+
+    public void Exit(NavigationController controller)
+    {
+        controller.HideMenu(controller.tutorialMenuGO);
+    }
+}

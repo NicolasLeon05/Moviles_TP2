@@ -150,6 +150,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   levelContainer: {fileID: 11400000, guid: c733269fd6c48c74fabab661822465dd, type: 2}
   _bootLevel: {fileID: 11400000, guid: d70f9e7a974ee2342af7092267151966, type: 2}
+  _loadingLevel: {fileID: 11400000, guid: 8a15a7f4ed014794e902d91abe906e77, type: 2}
+  _loadingTime: 2
+  _loadingRange: 1
 --- !u!4 &533808306
 Transform:
   m_ObjectHideFlags: 0
