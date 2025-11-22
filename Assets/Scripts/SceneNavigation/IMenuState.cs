@@ -34,16 +34,29 @@ public class WinMenuState : IMenuState
     }
 }
 
-public class CreditsMenuState : IMenuState
+public class LevelsMenuState : IMenuState
 {
     public void Enter(NavigationController controller)
     {
-        controller.ShowMenu(controller.creditsMenuGO, this);
+        controller.ShowMenu(controller.levelsMenuGO, this);
     }
 
     public void Exit(NavigationController controller)
     {
-        controller.HideMenu(controller.creditsMenuGO);
+        controller.HideMenu(controller.levelsMenuGO);
+    }
+}
+
+public class ShopMenuState : IMenuState
+{
+    public void Enter(NavigationController controller)
+    {
+        controller.ShowMenu(controller.shopMenuGO, this);
+    }
+
+    public void Exit(NavigationController controller)
+    {
+        controller.HideMenu(controller.shopMenuGO);
     }
 }
 

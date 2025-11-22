@@ -15,10 +15,16 @@ public class MenuTransitionButton : MonoBehaviour
         _navigationController.GoToMenu(new MainMenuState());
     }
 
-    public void ActivateCreditsMenu()
+    public void ActivateLevelsMenu()
     {
-        _navigationController.GoToMenu(new CreditsMenuState());
+        _navigationController.GoToMenu(new LevelsMenuState());
     }
+
+    public void ActivateShopMenu()
+    {
+        _navigationController.GoToMenu(new ShopMenuState());
+    }
+
 
     public void ButtonSetPreviousActive()
     {

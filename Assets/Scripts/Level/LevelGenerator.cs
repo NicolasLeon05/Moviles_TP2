@@ -115,6 +115,7 @@ public class LevelGenerator : MonoBehaviour
         }
 
         List<Transform> selectedPlatforms = new List<Transform>(platforms);
+        selectedPlatforms.Remove(selectedPlatforms[selectedPlatforms.Count - 1]);
         Shuffle(selectedPlatforms);
 
         for (int i = 0; i < coins.Count; i++)

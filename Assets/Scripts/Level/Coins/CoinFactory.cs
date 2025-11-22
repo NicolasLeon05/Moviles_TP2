@@ -20,6 +20,13 @@ public class CoinFactory : ICoinFactory
 
         var coin = Object.Instantiate(prefab, parent);
         coin.transform.localPosition = Vector3.up * 0.2f;
+
+        if (!coin.TryGetComponent<Coin>(out var coinComponent))
+            coinComponent = coin.AddComponent<Coin>();
+
+        coinComponent.type = type;
+
         return coin;
     }
+
 }

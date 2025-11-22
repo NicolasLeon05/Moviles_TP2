@@ -11,7 +11,6 @@ public class PlayerController : MonoBehaviour
     public float moveSpeed = 5f;
     public float jumpForce = 8f;
     public float airControlMultiplier = 0.6f;
-    private bool isJumping;
 
     [Header("GroundDetection")]
     public Transform groundCheck;
@@ -33,6 +32,9 @@ public class PlayerController : MonoBehaviour
     private bool jumpPressed;
 
     private SpriteRenderer spriteRenderer;
+    private float baseMoveSpeed;
+    private float baseJumpForce;
+
     void Awake()
     {
         rb = GetComponent<Rigidbody2D>();
@@ -44,6 +46,10 @@ public class PlayerController : MonoBehaviour
         inputActions.Player.Jump.performed += ctx => jumpPressed = true;
 
         spriteRenderer = GetComponent<SpriteRenderer>();
+
+        baseMoveSpeed = moveSpeed;
+        baseJumpForce = jumpForce;
+        ApplyUpgrades();
     }
 
     void OnEnable() => inputActions.Enable();
@@ -64,10 +70,7 @@ public class PlayerController : MonoBehaviour
 #endif
 
         if (isGrounded)
-        {
             coyoteTimeCounter = coyoteTime;
-            isJumping = false;
-        }
         else
             coyoteTimeCounter -= Time.deltaTime;
 
@@ -111,13 +114,26 @@ public class PlayerController : MonoBehaviour
     {
         if (jumpBufferCounter > 0f && coyoteTimeCounter > 0f)
         {
-            isJumping = true;
             rb.linearVelocity = new Vector2(rb.linearVelocity.x, 0);
             rb.AddForce(Vector2.up * jumpForce, ForceMode2D.Impulse);
 
             jumpBufferCounter = 0f;
         }
     }
+
+    private void ApplyUpgrades()
+    {
+        if (CurrencySystem.SpeedUpgrade)
+            moveSpeed = baseMoveSpeed * 1.5f;
+        else
+            moveSpeed = baseMoveSpeed;
+
+        if (CurrencySystem.JumpUpgrade)
+            jumpForce = baseJumpForce * 1.5f;
+        else
+            jumpForce = baseJumpForce;
+    }
+
 
     void CheckGround()
     {

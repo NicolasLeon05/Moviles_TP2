@@ -12,7 +12,8 @@ public class NavigationController : MonoBehaviour
     public GameObject mainMenuGO;
     public GameObject pauseMenuGO;
     public GameObject winMenuGO;
-    public GameObject creditsMenuGO;
+    public GameObject levelsMenuGO;
+    public GameObject shopMenuGO;
 
     private List<Menu> _menus = new();
     public Menu baseMenu;

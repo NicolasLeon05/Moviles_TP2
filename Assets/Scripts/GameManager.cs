@@ -8,6 +8,10 @@ public class GameManager : MonoBehaviour
 
     private void Awake()
     {
+#if UNITY_EDITOR
+        CurrencySystem.ResetForEditor();
+#endif
+
         ServiceProvider.SetService<GameManager>(this);
         #if UNITY_ANDROID && !UNITY_EDITOR
         ServiceProvider.SetService<ILoggerService>(new AndroidLoggerService(), true);
