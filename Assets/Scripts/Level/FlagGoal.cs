@@ -16,6 +16,8 @@ public class FlagGoal : MonoBehaviour
         if (!other.CompareTag("Player"))
             return;
 
+        AdManager.Instance.ShowInterstitial();
+
         sceneController.UnloadNonPersistentScenes();
         nav.ShowMenu(nav.winMenuGO, new WinMenuState());
     }

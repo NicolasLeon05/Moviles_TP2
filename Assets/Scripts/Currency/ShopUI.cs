@@ -18,6 +18,8 @@ public class ShopUI : MonoBehaviour
     [SerializeField] private int jumpCost = 30;
     [SerializeField] private int speedCost = 30;
 
+    [SerializeField] private Button watchAdButton;
+
     private void OnEnable()
     {
         RefreshUI();
@@ -27,9 +29,11 @@ public class ShopUI : MonoBehaviour
     {
         buyJumpButton.onClick.AddListener(OnBuyJump);
         buySpeedButton.onClick.AddListener(OnBuySpeed);
+        watchAdButton.onClick.AddListener(WatchAdForCoins);
 
         jumpPrice.GetComponentInChildren<TextMeshProUGUI>().text = jumpCost.ToString();
         speedPrice.GetComponentInChildren<TextMeshProUGUI>().text = speedCost.ToString();
+
 
         RefreshUI();
     }
@@ -67,5 +71,10 @@ public class ShopUI : MonoBehaviour
     {
         if (CurrencySystem.TryBuySpeed(speedCost))
             RefreshUI();
+    }
+
+    private void WatchAdForCoins()
+    {
+        AdManager.Instance.ShowRewarded();
     }
 }
