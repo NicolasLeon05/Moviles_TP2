@@ -76,5 +76,6 @@ public class ShopUI : MonoBehaviour
     private void WatchAdForCoins()
     {
         AdManager.Instance.ShowRewarded();
+        RefreshUI();
     }
 }

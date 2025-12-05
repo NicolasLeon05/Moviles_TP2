@@ -5,7 +5,7 @@ public class InterstitialController : MonoBehaviour
 {
     private InterstitialAd interstitial;
 
-    private string adUnitId = "ca-app-pub-3940256099942544/1033173712";
+    private string adUnitId = "ca-app-pub-6791675736047471/9782192062";
 
     public void LoadInterstitial()
     {
@@ -29,6 +29,7 @@ public class InterstitialController : MonoBehaviour
     {
         if (interstitial != null && interstitial.CanShowAd())
         {
+            Debug.Log("Showing interstitial");
             interstitial.Show();
         }
         else

@@ -4,7 +4,7 @@ using UnityEngine;
 public class RewardedController : MonoBehaviour
 {
     private RewardedAd rewardedAd;
-    private string adUnitId = "ca-app-pub-3940256099942544/5224354917";
+    private string adUnitId = "ca-app-pub-6791675736047471/5707215684";
 
     public void LoadRewarded()
     {
@@ -30,7 +30,7 @@ public class RewardedController : MonoBehaviour
         {
             rewardedAd.Show((Reward reward) =>
             {
-                Debug.Log("Usuario ganó recompensa: " + reward.Amount);
+                Debug.Log("User earned: " + reward.Amount);
                 CurrencySystem.AddCoins((int)reward.Amount);
             });
         }
